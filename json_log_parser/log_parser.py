@@ -5,6 +5,7 @@ json_log_parser.log_parser
 This module process a given log file and counts unique extensions and
 the number of unique filenames for that extension
 """
+import time
 from collections import defaultdict
 import json
 from json.decoder import JSONDecodeError
@@ -12,6 +13,7 @@ from json.decoder import JSONDecodeError
 from json_log_parser.exceptions.input_filename_error import InputFilenameError
 from json_log_parser.exceptions.json_error import JSONError
 from json_log_parser.exceptions.json_format_error import JSONFormatError
+from json_log_parser.file_extension_counter import FileExtensionCounter
 from json_log_parser.json_validator import JsonValidator
 from json_log_parser.file_reader import FileReader
 
@@ -88,7 +90,10 @@ class LogParser:
             print(k, v)
 
     def get_json_document(self, json_string):
-
+        """
+        This function takes a JSON string, loads it as JSON object,
+        and validates it against the schema
+        """
         document = self.load_json_from_string(json_string)
         self.json_validator.validate_document(document)
         return document
@@ -106,12 +111,14 @@ class LogParser:
             raise JSONFormatError(json_error)
 
     def count_file_extensions(self, unique_files):
-        extension_counter = defaultdict(int)
-        for file in unique_files:
-            extension = file.split('.')[-1]
-            extension_counter[extension] += 1
+        extension_counter = FileExtensionCounter()
+        if not unique_files:
+            return defaultdict()
 
-        return extension_counter
+        for file in unique_files:
+            extension_counter.add_extension_from_filename(file)
+
+        return extension_counter.get_extension_counts()
 
     def print_file_extensions(self, extension_counter):
         for key, value in extension_counter.items():
@@ -119,8 +126,8 @@ class LogParser:
 
 
 l = LogParser()
-l.process_log('tests/data/d\x00ata2.json')
-l.process_log('')
-l.process_log('tests/data/')
-l.process_log('tests/data/nothingthere')
-
+l.process_log('../tests/data/data2.json')
+# l.process_log('')
+# l.process_log('tests/data/')
+# l.process_log('tests/data/nothingthere')
+# print(time.time)

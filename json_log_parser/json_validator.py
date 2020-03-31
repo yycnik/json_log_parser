@@ -34,7 +34,8 @@ class JsonValidator:
             Also, UUIDs and SHA256 are validated using regex
         2) Manually validate additional fields such as timestamp, path and filename
         :param document:
-        :return:
+        Raises exception if validation fails. All exceptions raised in this module
+        inherit from JSONError to allow for single catch in the calling function
         """
         self.has_valid_json_schema(document)
         JsonValidator.has_valid_data(document)
@@ -72,11 +73,14 @@ class JsonValidator:
         :param timestamp:
         Raises InvalidTimestampException
         """
-        d = datetime.fromtimestamp(timestamp, tz=timezone.utc)
-        now = datetime.now(tz=timezone.utc)
+        try:
+            d = datetime.fromtimestamp(timestamp)
 
-        if d > now:
-            raise TimestampError('Timestamp is in the future'.format(d))
+            now = datetime.utcnow()
+            if d > now:
+                raise TimestampError('Timestamp is in the future'.format(d))
+        except OverflowError as err:
+            raise TimestampError(err)
 
     @staticmethod
     def is_valid_path(path_string):

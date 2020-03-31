@@ -46,3 +46,6 @@ class FileExtensionCounter:
             return split_filename[-1]
         else:
             return self.get_no_extension()
+
+    def get_extension_counts(self):
+        return self.file_extension_count

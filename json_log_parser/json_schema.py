@@ -18,7 +18,7 @@ class JsonSchema:
         return {
             "type": "object",
             "properties": {
-                "ts": {"type": "integer"},
+                "ts": {"type": "number"},
                 "pt": {"type": "integer",
                        "minimum": 0},
                 "si": uuid_schema,
@@ -72,7 +72,7 @@ class JsonSchema:
         This method returns a regex pattern that matches a valid SHA256 string
         :return: str
         """
-        return "(?i)^([a-f0-9]{64})$"
+        return "(?i)^(0x)?([a-f0-9]{64})$"
 
     @staticmethod
     def get_regex_schema(pattern):

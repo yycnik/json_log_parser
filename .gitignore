@@ -1,4 +1,6 @@
 .idea
 cov_annotate/
 cov_html/
+cov_xml/
 venv/
+/.coverage

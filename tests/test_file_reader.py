@@ -1,3 +1,6 @@
+"""
+Unit tests for json_log_parser.file_reader module
+"""
 import pytest
 from unittest.mock import patch
 

@@ -1,3 +1,6 @@
+"""
+Unit tests for json_log_parser.file_extension_counter module
+"""
 import pytest
 
 from json_log_parser.file_extension_counter import FileExtensionCounter
