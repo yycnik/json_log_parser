@@ -52,7 +52,8 @@ def test_is_input_filename_valid_filename_not_file(mock_file_exists, mock_isfile
 @patch('os.access')
 @patch('os.path.isfile')
 @patch('os.path.exists')
-def test_is_input_filename_valid_filename_not_readable(mock_file_exists, mock_isfile, mock_osaccess):
+def test_is_input_filename_valid_filename_not_readable(
+        mock_file_exists, mock_isfile, mock_osaccess):
     mock_file_exists.return_value = True
     mock_isfile.return_value = True
     mock_osaccess.return_value = False
@@ -60,4 +61,3 @@ def test_is_input_filename_valid_filename_not_readable(mock_file_exists, mock_is
         FileReader.is_input_filename_valid('/path/to/file')
 
     assert "is not readable" in str(err)
-

@@ -70,7 +70,7 @@ def test_validate_document_invalid_uuid(validator, json_document):
     assert 'does not match' in str(err)
 
 
-def test_validate_document_invalid_uuid(validator, json_document):
+def test_validate_document_invalid_sha256(validator, json_document):
     json_document['sha'] = 'not a sha256'
     with pytest.raises(JSONSchemaError) as err:
         validator.validate_document(json_document)

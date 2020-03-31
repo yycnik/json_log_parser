@@ -51,11 +51,11 @@ class JsonSchema:
 
         The regex validates against version 4 UUID format. Older formats will not be matched.
 
-        The regex is case-insensitive because online documentation requires that both
-        lowercase and uppercase should be tolerated as input.
+        The regex allows both lowercase and uppercase as per online documentation.
         :return: string
         """
-        return "(?i)^([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})$"
+        return "^([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-" \
+               "[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12})$"
 
     @staticmethod
     def get_sha256_schema():
@@ -77,7 +77,8 @@ class JsonSchema:
     @staticmethod
     def get_regex_schema(pattern):
         """
-        This method returns generic json schema used to validate a string value using a regex pattern
+        This method returns generic json schema used to validate a string value
+        using a regex pattern
         :param pattern: regex expression
         :return: Dictionary object
         """

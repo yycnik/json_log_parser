@@ -5,7 +5,7 @@ json_log_parser.json_validator
 This module ensures that a given JSON document conforms with the provided schema
 """
 
-from datetime import datetime, timezone
+from datetime import datetime
 
 import jsonschema
 from jsonschema.exceptions import ValidationError

@@ -64,4 +64,3 @@ def test_sha256_with_sha384_should_not_match(sha_regex):
 def test_sha256_with_sha512_should_not_match(sha_regex):
     sha = hashlib.sha512(b'We need something to hash').hexdigest()
     assert sha_regex.search('0x' + sha) is None
-

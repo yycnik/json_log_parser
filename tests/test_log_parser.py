@@ -26,7 +26,7 @@ def test_get_unique_file_set(parser):
 
 
 def test_get_json_document_loads_document(parser):
-    json_string ='{"ts":1551140352,' \
+    json_string = '{"ts":1551140352,' \
                  '"pt":55,' \
                  '"si":"3380fb19-0bdb-46ab-8781-e4c5cd448074",' \
                  '"uu":"0dd24034-36d6-4b1e-a6c1-a52cc984f105",' \
@@ -41,19 +41,19 @@ def test_get_json_document_loads_document(parser):
 
 
 def test_get_json_document_malformed_string_raises_exception(parser):
-    json_string ='a52cc984f105",' \
+    json_string = 'a52cc984f105",' \
                  '"bg":"77e28e28-745a-474b-a496-3c0e086eaec0",' \
                  '"sha":"abb3ec1b8174043d5cd21d21fbe3c3fb3e9a11c7ceff3314a3222404feedda52",' \
                  '"nm":"phkkrw.ext",' \
                  '"ph":"/efvrfutgp/expgh/phkkrw",' \
                  '"dp":2}'
 
-    with pytest.raises(JSONFormatError) as err:
+    with pytest.raises(JSONFormatError):
         parser.get_json_document(json_string)
 
 
 def test_get_json_document_missing_key_raises_exception(parser):
-    json_string ='{"ts":1551140352,' \
+    json_string = '{"ts":1551140352,' \
                  '"pt":55,' \
                  '"si":"3380fb19-0bdb-46ab-8781-e4c5cd448074",' \
                  '"bg":"77e28e28-745a-474b-a496-3c0e086eaec0",' \
@@ -80,4 +80,3 @@ def test_count_file_extensions_null_set_expects_empty_dict(parser):
     extensions = parser.count_file_extensions(None)
 
     assert len(extensions.keys()) == 0
-
