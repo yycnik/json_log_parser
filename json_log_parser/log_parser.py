@@ -5,7 +5,6 @@ json_log_parser.log_parser
 This module process a given log file and counts unique extensions and
 the number of unique filenames for that extension
 """
-import time
 from collections import defaultdict
 import json
 from json.decoder import JSONDecodeError
@@ -72,7 +71,7 @@ class LogParser:
                 exception_key = '{0}-{1}'.format(type(invalid_json).__name__, str(invalid_json))
                 exception_stats[exception_key] += 1
 
-        self.log_processing_stats(exception_stats, processing_stats)
+        # self.log_processing_stats(processing_stats, exception_stats)
         return unique_files
 
     def log_processing_stats(self, processing_stats, exception_stats):
@@ -121,13 +120,5 @@ class LogParser:
         return extension_counter.get_extension_counts()
 
     def print_file_extensions(self, extension_counter):
-        for key, value in extension_counter.items():
+        for key, value in sorted(extension_counter.items()):
             print("{0}: {1}".format(key, value))
-
-
-l = LogParser()
-l.process_log('../tests/data/data2.json')
-# l.process_log('')
-# l.process_log('tests/data/')
-# l.process_log('tests/data/nothingthere')
-# print(time.time)

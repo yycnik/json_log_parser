@@ -28,4 +28,25 @@ dp:  disposition (valid values: MALICIOUS (1), CLEAN (2), UNKNOWN (3))
 ext: 1
 pdf: 1
 ```
+## Setup
+####Install Module
+```buildoutcfg
+make install
+```
 
+#### Run Tests
+```buildoutcfg
+make test
+```
+
+#### Check Test Coverage
+```buildoutcfg
+make coverage
+```
+
+## Usage
+```
+>>> from json_log_parser.log_parser import LogParser
+>>> l = LogParser()
+>>> l.process_log('data/sample_log.json')
+```
