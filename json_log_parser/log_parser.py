@@ -25,9 +25,12 @@ class LogParser:
         Initialize a JsonValidator class used to validate each log line
         """
         self.json_validator = JsonValidator()
-        logging.basicConfig(filename='log_parser.log'.format(self.__class__),
-                            filemode='w', level=log_level,
-                            format='%(asctime)s - %(levelname)s - %(message)s')
+        try:
+            logging.basicConfig(filename='log_parser.log'.format(self.__class__),
+                                filemode='w', level=log_level,
+                                format='%(asctime)s - %(levelname)s - %(message)s')
+        except PermissionError:
+            print('Cannot create log file. Exceptions will not be logged')
 
     def process_log(self, input_filename):
         """
@@ -37,6 +40,7 @@ class LogParser:
             - Build a set of unique filenames
             - Build a dictionary of unique extensions and
             the number of unique filenames for that extension
+            - Print the results
         :param input_filename:
         """
         try:

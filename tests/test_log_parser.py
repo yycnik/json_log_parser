@@ -110,6 +110,17 @@ def test_process_log_validate_output(parser):
     assert 'ext: 1\npdf: 1\ntxt: 1' == output
 
 
+@patch('logging.basicConfig')
+def test_process_log_cannot_create_logger_produce_valid_output(mock_logging):
+    mock_logging.side_effect = PermissionError('Permission denied')
+    log_parser = LogParser()
+    with captured_output() as (out, err):
+        log_parser.process_log('tests/data/log_parser_tests/log_parser.json')
+
+    output = out.getvalue().strip()
+    assert 'ext: 1\npdf: 1\ntxt: 1' == output
+
+
 @patch('json_log_parser.log_parser.FileReader')
 def test_process_log_runtime_error_validate_output(mock_file_reader, parser):
     mock_file_reader.read_file.side_effect = RuntimeError('Crash')

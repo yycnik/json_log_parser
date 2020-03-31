@@ -49,7 +49,7 @@ class JsonSchema:
         """
         This method returns a regex expression that matches a valid UUID string.
 
-        The regex validates against version 4 UUID format. Older formats will not be matched.
+        The regex validates against version 4 UUID format. Other formats will not be matched.
 
         The regex allows both lowercase and uppercase as per online documentation.
         :return: string

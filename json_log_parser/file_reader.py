@@ -1,5 +1,9 @@
 """
+json_log_parser.file_reader
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+This module contains logic to validate the input filename and
+provide a generator to read the file line by line
 """
 import os.path
 from os import access, R_OK

@@ -57,7 +57,6 @@ class JsonValidator:
         This function validates fields in the JSON document that could not be
         validated using the jsonschema module
         :param document:
-        :return:
         """
         JsonValidator.is_valid_timestamp(document['ts'])
         JsonValidator.is_valid_path(document['ph'])
