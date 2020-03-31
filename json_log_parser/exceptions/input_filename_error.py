@@ -1,0 +1,2 @@
+class InputFilenameError(Exception):
+    pass

@@ -1,0 +1,4 @@
+.idea
+cov_annotate/
+cov_html/
+venv/
