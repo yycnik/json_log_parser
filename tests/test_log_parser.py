@@ -1,3 +1,8 @@
+import sys
+from contextlib import contextmanager
+from io import StringIO
+from unittest.mock import patch
+
 import pytest
 
 from json_log_parser.exceptions.json_format_error import JSONFormatError
@@ -80,3 +85,36 @@ def test_count_file_extensions_null_set_expects_empty_dict(parser):
     extensions = parser.count_file_extensions(None)
 
     assert len(extensions.keys()) == 0
+
+
+@contextmanager
+def captured_output():
+    """
+    Arguable approach (aka hack) to validate output
+    Source: https://bit.ly/39reBMI
+    """
+    new_out, new_err = StringIO(), StringIO()
+    old_out, old_err = sys.stdout, sys.stderr
+    try:
+        sys.stdout, sys.stderr = new_out, new_err
+        yield sys.stdout, sys.stderr
+    finally:
+        sys.stdout, sys.stderr = old_out, old_err
+
+
+def test_process_log_validate_output(parser):
+    with captured_output() as (out, err):
+        parser.process_log('tests/data/log_parser_tests/log_parser.json')
+
+    output = out.getvalue().strip()
+    assert 'ext: 1\npdf: 1\ntxt: 1' == output
+
+
+@patch('json_log_parser.log_parser.FileReader')
+def test_process_log_runtime_error_validate_output(mock_file_reader, parser):
+    mock_file_reader.read_file.side_effect = RuntimeError('Crash')
+    with captured_output() as (out, err):
+        parser.process_log('something')
+
+    output = out.getvalue().strip()
+    assert 'LogParser encountered unexpected error' in output

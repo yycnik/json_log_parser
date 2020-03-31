@@ -5,25 +5,29 @@ json_log_parser.log_parser
 This module process a given log file and counts unique extensions and
 the number of unique filenames for that extension
 """
-from collections import defaultdict
 import json
+import logging
+from collections import defaultdict
 from json.decoder import JSONDecodeError
 
 from json_log_parser.exceptions.input_filename_error import InputFilenameError
 from json_log_parser.exceptions.json_error import JSONError
 from json_log_parser.exceptions.json_format_error import JSONFormatError
 from json_log_parser.file_extension_counter import FileExtensionCounter
-from json_log_parser.json_validator import JsonValidator
 from json_log_parser.file_reader import FileReader
+from json_log_parser.json_validator import JsonValidator
 
 
 class LogParser:
-    def __init__(self):
+    def __init__(self, log_level=logging.INFO):
         """
         Constructor
         Initialize a JsonValidator class used to validate each log line
         """
         self.json_validator = JsonValidator()
+        logging.basicConfig(filename='log_parser.log'.format(self.__class__),
+                            filemode='w', level=log_level,
+                            format='%(asctime)s - %(levelname)s - %(message)s')
 
     def process_log(self, input_filename):
         """
@@ -36,13 +40,21 @@ class LogParser:
         :param input_filename:
         """
         try:
+            logging.info('Processing file %s', input_filename)
             line_generator = FileReader.read_file(input_filename)
             unique_files = self.get_unique_file_set(line_generator)
             extension_counter = self.count_file_extensions(unique_files)
             self.print_file_extensions(extension_counter)
+            logging.info('Finished processing file %s', input_filename)
         # Handle gracefully problems with the input filename
         except InputFilenameError as error:
+            logging.error(error, exc_info=True)
             print(str(error))
+        # Something terrible happened. Log it, print error message and exit
+        except Exception as exc:
+            logging.error(exc, exc_info=True)
+            print('LogParser encountered unexpected error: ' + str(exc))
+            print('Check log_parser.log for more details')
 
     def get_unique_file_set(self, line_generator):
         """
@@ -71,22 +83,8 @@ class LogParser:
                 exception_key = '{0}-{1}'.format(type(invalid_json).__name__, str(invalid_json))
                 exception_stats[exception_key] += 1
 
-        # self.log_processing_stats(processing_stats, exception_stats)
+        self.log_processing_stats(processing_stats, exception_stats)
         return unique_files
-
-    def log_processing_stats(self, processing_stats, exception_stats):
-        """
-        This function logs the stats from processing the input file
-        Processing stats show total, valid and invalid number of lines,
-        Exception stats provide a breakdown of all invalid log lines
-        :param processing_stats:
-        :param exception_stats:
-        :return:
-        """
-        for k, v in processing_stats.items():
-            print(k, v)
-        for k, v in exception_stats.items():
-            print(k, v)
 
     def get_json_document(self, json_string):
         """
@@ -122,3 +120,22 @@ class LogParser:
     def print_file_extensions(self, extension_counter):
         for key, value in sorted(extension_counter.items()):
             print("{0}: {1}".format(key, value))
+
+    def log_processing_stats(self, processing_stats, exception_stats):
+        """
+        This function logs the stats from processing the input file
+        Processing stats show total, valid and invalid number of lines,
+        Exception stats provide a breakdown of all invalid log lines
+        :param processing_stats:
+        :param exception_stats:
+        :return:
+        """
+        logging.info('Total lines: %d', processing_stats['total'])
+        logging.info('Valid lines: %d', processing_stats['success'])
+        logging.info('Invalid lines: %d', processing_stats['fail'])
+
+        logging.debug('Invalid line breakdown')
+        logging.debug('=======================================================================')
+        for k, v in exception_stats.items():
+            logging.debug('%s - %s', k, v)
+        logging.debug('=======================================================================')

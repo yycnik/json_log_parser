@@ -3,6 +3,7 @@
 """
 import os.path
 from os import access, R_OK
+
 from json_log_parser.exceptions.input_filename_error import InputFilenameError
 from json_log_parser.json_validator import JsonValidator
 

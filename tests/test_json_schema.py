@@ -3,10 +3,10 @@ Unit tests to validate regex expressions used to enforce JSON schema
 """
 
 import hashlib
-import pytest
 import re
 import uuid
 
+import pytest
 
 from json_log_parser.json_schema import JsonSchema
 

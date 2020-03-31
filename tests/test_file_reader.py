@@ -1,8 +1,9 @@
 """
 Unit tests for json_log_parser.file_reader module
 """
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 from json_log_parser.exceptions.input_filename_error import InputFilenameError
 from json_log_parser.file_reader import FileReader
