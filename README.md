@@ -29,6 +29,7 @@ ext: 1
 pdf: 1
 ```
 ## Setup
+The project requires Python 3 and it was tested with Python 3.6.9
 #### Install Module
 ```buildoutcfg
 make install
