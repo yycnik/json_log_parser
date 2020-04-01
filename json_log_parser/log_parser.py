@@ -2,7 +2,7 @@
 json_log_parser.log_parser
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This module process a given log file and counts unique extensions and
+This module processes a given log file and counts unique extensions and
 the number of unique filenames for that extension
 """
 import json
@@ -70,7 +70,6 @@ class LogParser:
         The function will also keep track of number of valid and invalid log lines.
         The stats will be printed in the log file.
         :param line_generator:
-        :return:
         """
         unique_files = set()
         processing_stats = defaultdict(int)
@@ -104,7 +103,7 @@ class LogParser:
         This function tries to a load the input json_string into a JSON object
 
         :param json_string:
-        Raises InvalidJSONFormatException if sting is malformed JSON
+        Raises InvalidJSONFormatException if the string is malformed JSON
         """
         try:
             return json.loads(json_string)
@@ -112,6 +111,10 @@ class LogParser:
             raise JSONFormatError(json_error)
 
     def count_file_extensions(self, unique_files):
+        """
+        Get a dictionary of unique extensions and how many times
+        they appeared in the unique_files set
+        """
         extension_counter = FileExtensionCounter()
         if not unique_files:
             return defaultdict()
@@ -122,6 +125,9 @@ class LogParser:
         return extension_counter.get_extension_counts()
 
     def print_file_extensions(self, extension_counter):
+        """
+        Print the dictionary with file extensions
+        """
         for key, value in sorted(extension_counter.items()):
             print("{0}: {1}".format(key, value))
 
