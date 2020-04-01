@@ -31,6 +31,9 @@ class FileExtensionCounter:
         Extracts the extension from the filename and increments the count in the dictionary
         :param filename:
         """
+        if not filename:
+            return
+
         extension = self.parse_extension(filename)
         self.file_extension_count[extension] += 1
 

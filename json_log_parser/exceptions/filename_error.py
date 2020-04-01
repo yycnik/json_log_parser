@@ -7,5 +7,5 @@ Raised when filename string fails validation
 from json_log_parser.exceptions.json_error import JSONError
 
 
-class InvalidFilenameError(JSONError):
+class FilenameError(JSONError):
     pass

@@ -6,15 +6,15 @@ This module contains json schema elements needed to validate a log line entry
 """
 
 
-class JsonSchema:
+class JSONSchema:
     @staticmethod
     def get_json_schema():
         """
         This method returns the schema for a valid log line entry
         :return: Dictionary object
         """
-        uuid_schema = JsonSchema.get_uuid_schema()
-        sha256_schema = JsonSchema.get_sha256_schema()
+        uuid_schema = JSONSchema.get_uuid_schema()
+        sha256_schema = JSONSchema.get_sha256_schema()
         return {
             "type": "object",
             "properties": {
@@ -41,8 +41,8 @@ class JsonSchema:
         This method returns the json schema for valid UUID entry
         :return: Dictionary object
         """
-        return JsonSchema.get_regex_schema(
-            JsonSchema.get_uuid_regex())
+        return JSONSchema.get_regex_schema(
+            JSONSchema.get_uuid_regex())
 
     @staticmethod
     def get_uuid_regex():
@@ -63,8 +63,8 @@ class JsonSchema:
         This method returns the schema for valid sha256 entry
         :return: Dictionary object
         """
-        return JsonSchema.get_regex_schema(
-            JsonSchema.get_sha256_regex())
+        return JSONSchema.get_regex_schema(
+            JSONSchema.get_sha256_regex())
 
     @staticmethod
     def get_sha256_regex():

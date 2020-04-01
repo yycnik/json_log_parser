@@ -11,19 +11,19 @@ import jsonschema
 from jsonschema.exceptions import ValidationError
 
 from .exceptions.file_path_error import FilePathError
-from .exceptions.filename_error import InvalidFilenameError
+from .exceptions.filename_error import FilenameError
 from .exceptions.json_schema_error import JSONSchemaError
 from .exceptions.timestamp_error import TimestampError
-from .json_schema import JsonSchema
+from .json_schema import JSONSchema
 
 
-class JsonValidator:
+class JSONValidator:
     def __init__(self):
         """
         Constructor
         Loads the schema that will be used to validate documents
         """
-        self.schema = JsonSchema.get_json_schema()
+        self.schema = JSONSchema.get_json_schema()
 
     def validate_document(self, document):
         """
@@ -38,7 +38,7 @@ class JsonValidator:
         inherit from JSONError to allow for single catch in the calling function
         """
         self.has_valid_json_schema(document)
-        JsonValidator.has_valid_data(document)
+        JSONValidator.has_valid_data(document)
 
     def has_valid_json_schema(self, document):
         """
@@ -58,9 +58,9 @@ class JsonValidator:
         validated using the jsonschema module
         :param document:
         """
-        JsonValidator.is_valid_timestamp(document['ts'])
-        JsonValidator.is_valid_path(document['ph'])
-        JsonValidator.is_valid_filename(document['nm'])
+        JSONValidator.is_valid_timestamp(document['ts'])
+        JSONValidator.is_valid_path(document['ph'])
+        JSONValidator.is_valid_filename(document['nm'])
 
     @staticmethod
     def is_valid_timestamp(timestamp):
@@ -106,7 +106,7 @@ class JsonValidator:
         if len(path_string) > 4096:
             raise FilePathError("File path is longer than 4096 characters")
 
-        if JsonValidator.string_has_null_byte(path_string):
+        if JSONValidator.string_has_null_byte(path_string):
             raise FilePathError("File path contains null bytes")
 
     @staticmethod
@@ -121,10 +121,10 @@ class JsonValidator:
         Raises exception if filename contains null byte or '/'
         """
         if '/' in filename:
-            raise InvalidFilenameError("Invalid character '/' in filename")
+            raise FilenameError("Invalid character '/' in filename")
 
-        if JsonValidator.string_has_null_byte(filename):
-            raise InvalidFilenameError("Filename contains null bytes")
+        if JSONValidator.string_has_null_byte(filename):
+            raise FilenameError("Filename contains null bytes")
 
     @staticmethod
     def string_has_null_byte(string_to_check):

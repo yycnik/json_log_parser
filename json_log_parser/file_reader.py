@@ -9,7 +9,7 @@ import os.path
 from os import access, R_OK
 
 from json_log_parser.exceptions.input_filename_error import InputFilenameError
-from json_log_parser.json_validator import JsonValidator
+from json_log_parser.json_validator import JSONValidator
 
 
 class FileReader:
@@ -43,7 +43,7 @@ class FileReader:
 
         # As we learned when validating the JSON objects filenames cannot
         # have null bytes. Why not check it here too
-        if JsonValidator.string_has_null_byte(filename):
+        if JSONValidator.string_has_null_byte(filename):
             raise InputFilenameError("Filename '{0}' contains null bytes".format(filename))
 
         # Check if the file exists

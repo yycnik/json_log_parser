@@ -15,7 +15,7 @@ from json_log_parser.exceptions.json_error import JSONError
 from json_log_parser.exceptions.json_format_error import JSONFormatError
 from json_log_parser.file_extension_counter import FileExtensionCounter
 from json_log_parser.file_reader import FileReader
-from json_log_parser.json_validator import JsonValidator
+from json_log_parser.json_validator import JSONValidator
 
 
 class LogParser:
@@ -24,7 +24,7 @@ class LogParser:
         Constructor
         Initialize a JsonValidator class used to validate each log line
         """
-        self.json_validator = JsonValidator()
+        self.json_validator = JSONValidator()
         try:
             logging.basicConfig(filename='log_parser.log'.format(self.__class__),
                                 filemode='w', level=log_level,
