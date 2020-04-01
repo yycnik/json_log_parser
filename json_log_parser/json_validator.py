@@ -49,7 +49,7 @@ class JSONValidator:
         try:
             jsonschema.validate(document, self.schema)
         except ValidationError as v:
-            raise JSONSchemaError(v)
+            raise JSONSchemaError(v.message)
 
     @staticmethod
     def has_valid_data(document):
