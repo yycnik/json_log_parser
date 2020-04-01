@@ -118,7 +118,7 @@ def captured_output():
     Source: https://bit.ly/39reBMI
 
     This provides some value because we can capture changes if output format changes
-    Moreover, this gives us the ultimate prize of achieving 100% code coverage
+    Moreover, it gives us the ultimate prize of achieving 100% code coverage
     """
     new_out, new_err = StringIO(), StringIO()
     old_out, old_err = sys.stdout, sys.stderr
